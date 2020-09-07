@@ -1,214 +1,215 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "OpenAPI definition",
-    "version": "v0"
-  },
-  "servers": [
-    {
-      "url": "https://openbank-am-3scale-apicast-staging.cib-3scaleapp.cib-1593523701488-f72ef11f3ab089a8c677044eb28292cd-0000.au-syd.containers.appdomain.cloud:443",
-      "description": "Generated server url"
-    }
-  ],
-  "paths": {
-    "/obp/v4.0.0/banks/test-bank/accounts": {
-      "get": {
-        "tags": [
-          "account-controller"
-        ],
-        "operationId": "getAccounts",
-		"parameters": [
-          {
-            "name": "user_key",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "x-data-threescale-name": "user_keys"
+    "openapi": "3.0.1",
+    "info": {
+        "title": "OpenAPI definition",
+        "version": "v0",
+        "description": "Open API publish to Github"
+    },
+    "servers": [
+        {
+            "url": "https://openbank-am-3scale-apicast-staging.cib-3scaleapp.cib-1593523701488-f72ef11f3ab089a8c677044eb28292cd-0000.au-syd.containers.appdomain.cloud:443",
+            "description": "Generated server url"
+        }
+    ],
+    "paths": {
+        "/obp/v4.0.0/banks/test-bank/accounts": {
+            "get": {
+                "tags": [
+                    "account-controller"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_key",
+                        "schema": {
+                            "type": "string",
+                            "x-data-threescale-name": "user_keys"
+                        },
+                        "in": "query",
+                        "required": true,
+                        "x-data-threescale-name": "user_keys"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/listAccounts"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "default response"
+                    }
+                },
+                "operationId": "getAccounts"
             },
-            "x-data-threescale-name": "user_keys"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "default response",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/listAccounts"
-                  }
-                }
-              }
+            "post": {
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Account"
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "account-controller"
+                ],
+                "parameters": [
+                    {
+                        "name": "bankId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "name": "user_key",
+                        "schema": {
+                            "type": "string",
+                            "x-data-threescale-name": "user_keys"
+                        },
+                        "in": "query",
+                        "required": true,
+                        "x-data-threescale-name": "user_keys"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/createdAccount"
+                                }
+                            }
+                        },
+                        "description": "Account Successfully Created"
+                    },
+                    "401": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/createdAccount"
+                                }
+                            }
+                        },
+                        "description": "Authorization Error "
+                    },
+                    "403": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/createdAccount"
+                                }
+                            }
+                        },
+                        "description": "Accessing the resource you were trying to reach is forbidden"
+                    },
+                    "404": {
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/createdAccount"
+                                }
+                            }
+                        },
+                        "description": "The resource you were trying to reach is not found"
+                    }
+                },
+                "operationId": "createAccount"
             }
-          }
         }
-      },
-      "post": {
-        "tags": [
-          "account-controller"
-        ],
-        "operationId": "createAccount",
-		"parameters": [
-          {
-            "name": "bankId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "user_key",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "x-data-threescale-name": "user_keys"
+    },
+    "components": {
+        "schemas": {
+            "Account": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "product_code": {
+                        "type": "string"
+                    },
+                    "bank_id": {
+                        "type": "string"
+                    },
+                    "branch_id": {
+                        "type": "string"
+                    },
+                    "balance": {
+                        "$ref": "#/components/schemas/Balance"
+                    },
+                    "account_routing": {
+                        "$ref": "#/components/schemas/AccountRouting"
+                    }
+                }
             },
-            "x-data-threescale-name": "user_keys"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Account"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Account Successfully Created",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/createdAccount"
+            "AccountRouting": {
+                "type": "object",
+                "properties": {
+                    "scheme": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    }
                 }
-              }
-            }
-          },
-          "401": {
-            "description": "Authorization Error ",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/createdAccount"
+            },
+            "Balance": {
+                "type": "object",
+                "properties": {
+                    "currency": {
+                        "type": "string"
+                    },
+                    "amount": {
+                        "format": "double",
+                        "type": "number"
+                    }
                 }
-              }
-            }
-          },
-          "403": {
-            "description": "Accessing the resource you were trying to reach is forbidden",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/createdAccount"
+            },
+            "createdAccount": {
+                "type": "object",
+                "properties": {
+                    "account_id": {
+                        "type": "string"
+                    },
+                    "user_id": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "product_code": {
+                        "type": "string"
+                    }
                 }
-              }
-            }
-          },
-          "404": {
-            "description": "The resource you were trying to reach is not found",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/createdAccount"
+            },
+            "listAccounts": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "bank_id": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    }
                 }
-              }
             }
-          }
         }
-      }
     }
-  },
-  "components": {
-    "schemas": {
-      "Account": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "user_id": {
-            "type": "string"
-          },
-          "label": {
-            "type": "string"
-          },
-          "product_code": {
-            "type": "string"
-          },
-          "bank_id": {
-            "type": "string"
-          },
-          "branch_id": {
-            "type": "string"
-          },
-          "balance": {
-            "$ref": "#/components/schemas/Balance"
-          },
-          "account_routing": {
-            "$ref": "#/components/schemas/AccountRouting"
-          }
-        }
-      },
-      "AccountRouting": {
-        "type": "object",
-        "properties": {
-          "scheme": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          }
-        }
-      },
-      "Balance": {
-        "type": "object",
-        "properties": {
-          "currency": {
-            "type": "string"
-          },
-          "amount": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "createdAccount": {
-        "type": "object",
-        "properties": {
-          "account_id": {
-            "type": "string"
-          },
-          "user_id": {
-            "type": "string"
-          },
-          "label": {
-            "type": "string"
-          },
-          "product_code": {
-            "type": "string"
-          }
-        }
-      },
-      "listAccounts": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "bank_id": {
-            "type": "string"
-          },
-          "label": {
-            "type": "string"
-          }
-        }
-      }
-    }
-  }
 }
